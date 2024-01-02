@@ -24,7 +24,6 @@ class aclient(discord.Client):
 client = aclient()
 tree = app_commands.CommandTree(client)
 
-
 @tree.command(name="help", description="Help command", guild=activeguild)
 async def help(interaction: discord.Interaction):
 
@@ -196,5 +195,15 @@ async def clearallroles(interaction: discord.Interaction, member: discord.Member
     print(f"{interaction.user.name} a utilisé la commande clearallroles sur {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     await logs.send(f"{interaction.user.name} a utilisé la commande clearallroles sur {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
             
+@tree.command(name="nickbot", description="Nick the bot", guild=activeguild)
+@app_commands.checks.has_permissions(manage_nicknames=True)
+async def nickbot(interaction: discord.Interaction, nick: str):
+    logs = client.get_channel(1191462856546340864)
+    time = interaction.created_at.astimezone()
+    await interaction.guild.me.edit(nick=nick)
+    await logs.send(f"{interaction.user.name} a utilisé la commande nickbot pour changer le surnom du bot en {nick} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
+    print(f"{interaction.user.name} a utilisé la commande nickbot pour changer le surnom du bot en {nick} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
+    await interaction.response.send_message(f"Mon surnom est maintenant {nick}", ephemeral=True)    
+    
             
 client.run(discord_token)

@@ -307,7 +307,7 @@ async def play(interaction: discord.Interaction, lienyoutube: str = None):
         song = data['url']
         logs = client.get_channel(1191462856546340864)
         time = interaction.created_at.astimezone()
-        await interaction.channel.send(f"**Maintenant en route :** {title}")
+        await interaction.response.send_message(f"**Maintenant en route :** {title}")
         await logs.send(f"{interaction.user.name} a utilisé la commande play pour jouer {title} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         print(f"{interaction.user.name} a utilisé la commande play pour jouer {title} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         # sending the title of the video

@@ -4,8 +4,11 @@ from login import discord_token
 from discord.ui import Button, View
 import youtube_dl
 import asyncio
+from pytube import YouTube
 
-activeguild = discord.Object(id=1189134965766631476)
+activeguild = discord.Object(id=1178661286620434523)
+# amis : 1178661286620434523
+#server : 1189134965766631476
 
 
 class aclient(discord.Client):
@@ -26,7 +29,6 @@ class aclient(discord.Client):
 
 client = aclient()
 tree = app_commands.CommandTree(client)
-
 
 @tree.command(name="help", description="Help command", guild=activeguild)
 async def help(interaction: discord.Interaction):
@@ -126,7 +128,7 @@ async def help(interaction: discord.Interaction):
         inline=False
     ).set_footer(text=client.user, icon_url=client.user.avatar.url)
     
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande help à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}. ")
     print(f"{interaction.user.name} a utilisé la commande help à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}. ")
@@ -139,7 +141,7 @@ async def ban(interaction: discord.Interaction, member: discord.Member, reason: 
     if reason == None:
         reason = "Pas de raison donnée."
     await member.ban(reason=reason)
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande ban sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande ban sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -152,7 +154,7 @@ async def kick(interaction: discord.Interaction, member: discord.Member, reason:
     if reason == None:
         reason = "Pas de raison donnée."
     await member.kick(reason=reason)
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande kick sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande kick sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -168,7 +170,7 @@ async def clear(interaction: discord.Interaction, number: int):
         await message.delete()
         num += 1
 
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande clear pour supprimer {num} messages à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande clear pour supprimer {num} messages à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -181,12 +183,12 @@ async def assign(interaction: discord.Interaction, member: discord.Member, role:
     time = interaction.created_at.astimezone()
     try:
         await member.add_roles(role)
-        logs = client.get_channel(1191462856546340864)
+        logs = client.get_channel(1197601900380561409)
         await logs.send(f"{interaction.user.name} a utilisé la commande assign pour assigner {role} à {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         print(f"{interaction.user.name} a utilisé la commande assign pour assigner {role} à {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         await interaction.response.send_message(f"{member.mention} tu as bien reçu le rôle {role.mention} !")
     except:
-        logs = client.get_channel(1191462856546340864)
+        logs = client.get_channel(1197601900380561409)
         time = interaction.created_at.astimezone()
         await logs.send(f"{interaction.user.name} a utilisé la commande assign pour assigner {role} à {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')} (erreur permissions insuffisantes).")
         await interaction.response.send_message(f"Je n'ai pas les permissions pour assigner ce rôle.")
@@ -196,7 +198,7 @@ async def assign(interaction: discord.Interaction, member: discord.Member, role:
 @app_commands.checks.has_permissions(manage_roles=True)
 async def unassign(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     await member.remove_roles(role)
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande unassign pour désassigner {role} à {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande unassign pour désassigner {role} à {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -218,7 +220,7 @@ async def warn(interaction: discord.Interaction, member: discord.Member, reason:
         description=f"La raison est : {reason}",
         color=0xAA0000).set_footer(text=f"Merci de ne plus enfreindre les règles.")
     await client.create_dm(member)
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande warn sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande warn sur {member} pour {reason} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -236,7 +238,7 @@ async def clearallroles(interaction: discord.Interaction, member: discord.Member
             await member.remove_roles(i)
         except:
             print("")
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await interaction.response.send_message(f"J'ai bien supprimé tous les rôles de {member.mention}", ephemeral=True)
     print(f"{interaction.user.name} a utilisé la commande clearallroles sur {member} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -246,7 +248,7 @@ async def clearallroles(interaction: discord.Interaction, member: discord.Member
 @tree.command(name="nickbot", description="Nick the bot", guild=activeguild)
 @app_commands.checks.has_permissions(manage_nicknames=True)
 async def nickbot(interaction: discord.Interaction, nick: str):
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await interaction.guild.me.edit(nick=nick)
     await logs.send(f"{interaction.user.name} a utilisé la commande nickbot pour changer le surnom du bot en {nick} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -273,6 +275,7 @@ ytdlopts = {
 
 }
 
+
 ffmpeg_options = {
     'options': '-vn'
 }
@@ -297,28 +300,37 @@ async def play(interaction: discord.Interaction, lienyoutube: str = None):
                 client.voice_clients, guild=interaction.guild)
 
         loop = asyncio.get_event_loop()
-        if lienyoutube is None:
-            data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url=defaultlink, download=False))
-        else:
-            # extracting the info and not downloading the source
-            data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url=lienyoutube, download=False))
+        yt = YouTube(lienyoutube)
+        ys = yt.streams.filter(only_audio=True).first()            
 
-        title = data['title']  # getting the title
-        song = data['url']
-        logs = client.get_channel(1191462856546340864)
+        #Starting download
+        ys.download("", "music.mp3")
+        
+        title = yt.title
+        
+        # if lienyoutube is None:
+        #     data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url=defaultlink, download=False))
+        # else:
+        #     # extracting the info and not downloading the source
+        #     data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url=lienyoutube, download=False))
+
+        # title = data['title']  # getting the title
+        # song = data['url']
+        # print(song)
+        logs = client.get_channel(1197601900380561409)
         time = interaction.created_at.astimezone()
         await interaction.response.send_message(f"**Maintenant en route :** {title}")
         await logs.send(f"{interaction.user.name} a utilisé la commande play pour jouer {title} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         print(f"{interaction.user.name} a utilisé la commande play pour jouer {title} à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
         # sending the title of the video
 
-        if 'entries' in data:  # checking if the url is a playlist or not
-            # if its a playlist, we get the first item of it
-            data = data['entries'][0]
+        # if 'entries' in data:  # checking if the url is a playlist or not
+        #     # if its a playlist, we get the first item of it
+        #     data = data['entries'][0]
 
         try:
             voice_client.play(discord.FFmpegPCMAudio(
-                source=song, **ffmpeg_options, executable="ffmpeg"))  # playing the audio
+                source="music.mp3", **ffmpeg_options, executable="ffmpeg"))  # playing the audio
         except Exception as e:
             print(e)
     else:
@@ -330,11 +342,52 @@ async def stop(interaction: discord.Interaction):
     if not voice_client:
         return await interaction.response.send_message("Je ne joue rien pour le moment.")
     await voice_client.disconnect()
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande stop pour déconnecter le bot à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande stop pour déconnecter le bot à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     await interaction.response.send_message("Ciaoo musique stoppée !")
+    import os 
+    os.remove("music.mp3")
+
+@tree.command(name="pirate", guild=activeguild, description="Lance pirate des caraïbes")
+async def pirate(interaction: discord.Interaction):
+    voice_client = interaction.guild.voice_client
+    # play the local mp3 file named "pirate.mp3" like it works in the play command
+    song = "pirate.mp3"
+    
+    try:
+        voice_channel = interaction.user.voice.channel
+    except AttributeError:
+        return await interaction.response.send_message("Pas de salon vocal trouvé. Vérifiez que vous êtes dans un salon vocal.")
+    
+    if not voice_client:
+        await voice_channel.connect()
+        voice_client = discord.utils.get(
+            client.voice_clients, guild=interaction.guild)
+
+        loop = asyncio.get_event_loop()
+        
+        # play the local sound 
+        logs = client.get_channel(1197601900380561409)
+        time = interaction.created_at.astimezone()
+        await interaction.response.send_message(f"**C'est parti pour Pirate des Caraïbes !**")
+        await logs.send(f"{interaction.user.name} a utilisé la commande play pour jouer Pirate des Caraïbes à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
+        print(f"{interaction.user.name} a utilisé la commande play pour jouer Pirate des Caraïbes à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
+        # sending the title of the video
+
+
+        try:
+            voice_client.play(discord.FFmpegPCMAudio(
+                source=song, **ffmpeg_options, executable="ffmpeg"))  # playing the audio
+        except Exception as e:
+            print(e)
+    else:
+        await interaction.response.send_message("Le lien n'est pas valide.")
+    
+    
+    
+    
 
 @tree.command(name="pause", guild=activeguild, description="Met en pause la musique")
 async def pause(interaction: discord.Interaction):
@@ -342,7 +395,7 @@ async def pause(interaction: discord.Interaction):
     if not voice_client:
         return await interaction.response.send_message("Je ne joue rien pour le moment.")
     voice_client.pause()
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande pause pour mettre en pause la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande pause pour mettre en pause la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
@@ -354,23 +407,25 @@ async def resume(interaction: discord.Interaction):
     if not voice_client:
         return await interaction.response.send_message("Je ne joue rien pour le moment.")
     voice_client.resume()
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande resume pour reprendre la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande resume pour reprendre la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     await interaction.response.send_message("Et c'est reparti !")    
 
-@tree.command(name="skip", guild=activeguild, description="Passe la musique")
+@tree.command(name="skip", guild
+              =activeguild, description="Passe la musique")
 async def skip(interaction: discord.Interaction):
     voice_client = interaction.guild.voice_client
     if not voice_client:
         return await interaction.response.send_message("Je ne joue rien pour le moment.")
     voice_client.stop()
-    logs = client.get_channel(1191462856546340864)
+    logs = client.get_channel(1197601900380561409)
     time = interaction.created_at.astimezone()
     await logs.send(f"{interaction.user.name} a utilisé la commande skip pour passer la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     print(f"{interaction.user.name} a utilisé la commande skip pour passer la musique à {time.strftime('%H:%M:%S')} le {time.strftime('%d/%m/%Y')}.")
     await interaction.response.send_message("J'ai passé la musique ! **/play** pour choisir un nouveau morceau.")
+
 
 
 client.run(discord_token)
